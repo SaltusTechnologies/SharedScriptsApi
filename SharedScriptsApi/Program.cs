@@ -4,6 +4,40 @@ using SharedScriptsApi.Data;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<SharedScriptsApiContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SharedScriptsApiContext") ?? throw new InvalidOperationException("Connection string 'SharedScriptsApiContext' not found.")));
+var services = builder.Services;    
+services.AddTransient<AntiforgeryCookieResultFilter>();
+// https://github.com/dotnet/aspnet-api-versioning/wiki
+builder.Services.AddApiVersioning(options =>
+{
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.DefaultApiVersion = new ApiVersion(1, 0);
+    options.ReportApiVersions = true;
+    options.ApiVersionReader = new UrlSegmentApiVersionReader();
+}).AddApiExplorer(
+options =>
+{
+    options.GroupNameFormat = "'v'VVV";
+    options.SubstituteApiVersionInUrl = true;
+    options.RouteConstraintName = "version";
+}).AddMvc(options => {
+    // https://github.com/dotnet/aspnet-api-versioning/wiki/API-Version-Conventions
+    options.Conventions.Controller<TwoPointOControllerBase>()
+        .HasApiVersions(
+        // represents an api set
+        [
+            new ApiVersion(2.0)//,
+                               //new ApiVersion(2.1)
+        ]);
+    options.Conventions.Controller<V2Controller>()
+        .HasApiVersions(
+        [
+            new ApiVersion(2.0)
+        ]);
+    //options.Conventions.Controller<V2_1Controller>()
+    //    .HasApiVersions([
+    //        new ApiVersion(2.1)
+    //    ]);
+});
 
 // Add services to the container.
 
