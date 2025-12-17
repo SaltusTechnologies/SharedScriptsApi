@@ -13,9 +13,9 @@ namespace SharedScriptsApi.Controllers
     [Route("api/{version:apiVersion}")]
     [ApiController]
     [Authorize]
-    public class ModelControllerBase(ILogger<ModelControllerBase> logger) : Controller
+    public class BaseController(ILogger<BaseController> logger) : Controller
     {
-        protected readonly ILogger<ModelControllerBase> _logger = logger;
+        protected readonly ILogger<BaseController> _logger = logger;
         private const string API_BASE = "api";
         private const string API_VERSION_ROUTE_CONSTRAINT_NAME = "version";
         private const string DEFAULT_API_VERSION = "2.0";
