@@ -12,13 +12,13 @@ namespace SharedScriptsApi.Controllers
         }
 
         // GET: ScriptController/Details/5
-        public ActionResult Details(int id)
+        public IActionResult Details(int id)
         {
             return View();
         }
 
         // GET: ScriptController/Create
-        public ActionResult Create()
+        public IActionResult Create()
         {
             return View();
         }
@@ -26,7 +26,7 @@ namespace SharedScriptsApi.Controllers
         // POST: ScriptController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public IActionResult Create(IFormCollection collection)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace SharedScriptsApi.Controllers
         }
 
         // GET: ScriptController/Edit/5
-        public ActionResult Edit(int id)
+        public IActionResult Edit(int id)
         {
             return View();
         }
@@ -60,7 +60,7 @@ namespace SharedScriptsApi.Controllers
         }
 
         // GET: ScriptController/Delete/5
-        public ActionResult Delete(int id)
+        public IActionResult Delete(int id)
         {
             return View();
         }
@@ -68,7 +68,7 @@ namespace SharedScriptsApi.Controllers
         // POST: ScriptController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public IActionResult Delete(int id, IFormCollection collection)
         {
             try
             {
