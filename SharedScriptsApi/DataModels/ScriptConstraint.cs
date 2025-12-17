@@ -1,12 +1,13 @@
 ﻿using SharedScriptsApi.DataModels;
 using SharedScriptsApi.Interfaces;
+using SharedScriptsApi.Interfaces.Saltus.digiTICKET.ExternalSources.Models;
 using System;
 using System.Data.SqlTypes;
 
 namespace Saltus.digiTICKET.Data0111000000.Models
 {
     [Serializable]
-    public class ScriptConstraint : IScriptConstraint
+    public class ScriptConstraint : IScriptConstraint, IEntity
     {
         public int ScriptConstraintId { get; set; }
         public required string Branch { get; set; }
@@ -18,5 +19,15 @@ namespace Saltus.digiTICKET.Data0111000000.Models
         public bool Active { get; set; }
         public required Script Script { get; set; }
         IScript IScriptConstraint.Script { get => Script; set => Script = (Script)value; }
+
+        public int GetId()
+        {
+            throw new NotImplementedException();
+        }
+
+        public object[] GetPrimaryKey()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
