@@ -1,0 +1,6 @@
+@SharedScriptsApi_HostAddress = http://localhost:5034
+
+GET {{SharedScriptsApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
