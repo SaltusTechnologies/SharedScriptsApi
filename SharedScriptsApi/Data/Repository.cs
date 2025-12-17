@@ -41,7 +41,7 @@ namespace SharedScriptsApi.Data
             if (includeConstraints)
             {
                 query = query.Include(x => x.ScriptConstraints != null
-                    ? x.ScriptConstraints.Where(c => c.Active);
+                    ? x.ScriptConstraints.Where(y => y.Active));
             }
 
             if (modifiedDate != null)
