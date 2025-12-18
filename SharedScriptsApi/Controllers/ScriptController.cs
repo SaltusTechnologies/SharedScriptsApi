@@ -33,7 +33,7 @@ namespace SharedScriptsApi.Controllers
         {
             return View(script);
         }
-        [HttpPost("Scripts/OK/pdate")]
+        [HttpPost("Scripts/OK/Update")]
         public IActionResult UpdateScriptsOK(IScript script)
         {
             return View(script);

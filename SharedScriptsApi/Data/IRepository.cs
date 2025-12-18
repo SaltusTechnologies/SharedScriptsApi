@@ -6,7 +6,7 @@ using System.Security.Principal;
 namespace SharedScriptsApi.Data
 {
     public interface IRepository<TEntity>
-    where TEntity : class, IEntity
+    where TEntity : class
     {
         Dictionary<string, Func<TEntity, bool>>? Filters { get; }
         DbSet<TEntity> Entities { get; }

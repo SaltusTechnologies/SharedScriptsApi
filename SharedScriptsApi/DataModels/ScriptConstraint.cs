@@ -17,7 +17,7 @@ namespace Saltus.digiTICKET.Data0111000000.Models
         public int? ModifiedBy { get; set; }
         public DateTime ModifiedDate { get; set; } = SqlDateTime.MinValue.Value;
         public bool Active { get; set; }
-        public required Script Script { get; set; }
+        public Script Script { get; set; }
         IScript IScriptConstraint.Script { get => Script; set => Script = (Script)value; }
 
         public int GetId()

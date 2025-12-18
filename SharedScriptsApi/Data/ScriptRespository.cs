@@ -3,6 +3,7 @@
 using Microsoft.EntityFrameworkCore;
 using Saltus.digiTICKET.Data0111000000.Models;
 using SharedScriptsApi.DataModels;
+using SharedScriptsApi.Interfaces;
 using System;
 
 namespace SharedScriptsApi.Data
@@ -23,12 +24,17 @@ namespace SharedScriptsApi.Data
         }
         #endregion
 
-        async Task<IEnumerable<Script>?> IScriptRepository.GetScripts(string name, string version, bool includeConstraints, DateTime? modifiedDate)
+        async Task<IEnumerable<Script>?> IScriptRepository.GetScripts(string branch, string name, string version, bool includeConstraints, DateTime? modifiedDate)
         {
 
             IQueryable<Script> query = Scripts.Where(x => x.Active);
 
             if (!string.IsNullOrWhiteSpace(version))
+            {
+                query = query.Where(x => x.Version == version);
+
+
+                if (!string.IsNullOrWhiteSpace(version))
             {
                 query = query.Where(x => x.Version == version);
             }
@@ -91,6 +97,7 @@ namespace SharedScriptsApi.Data
                     .Select(sc => new ScriptConstraint
                     {
                         ScriptConstraintId = sc.ScriptConstraintId,
+                        Branch = sc.Branch,
                         Name = sc.Name,
                         Version = sc.Version,
                         Constraint = sc.Constraint,
@@ -107,6 +114,7 @@ namespace SharedScriptsApi.Data
             var entity = new Script
             {
                 ScriptId = script.ScriptId = 0,
+                Branch = script.Branch,
                 Name = script.Name,
                 Version = script.Version,
                 Value = script.Value,
@@ -115,6 +123,7 @@ namespace SharedScriptsApi.Data
                 ScriptConstraints = script.ScriptConstraints?.Select(sc => new ScriptConstraint
                 {
                     Name = sc.Name,
+                    Branch = sc.Branch,
                     Version = sc.Version,
                     Constraint = sc.Constraint,
                     ModifiedBy = sc.ModifiedBy,
@@ -126,13 +135,43 @@ namespace SharedScriptsApi.Data
             return entity;
         }
     }
+
+    async Task<IEnumerable<IScript>> GetScripts(string branch, string name, string version, bool includeConstraints, DateTime? modifiedDate)
+        {
+            IQueryable<Script> query = Scripts
+                .AsNoTrackingWithIdentityResolution()
+                .Where(x => x.Active);
+
+            if (!string.IsNullOrWhiteSpace(version))
+            {
+                query = query.Where(x => x.Version == version);
+            }
+
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                query = query.Where(x => x.Name == name);
+            }
+
+            if (includeConstraints)
+            {
+                query = query.Include(x => x.ScriptConstraints != null);
+            }
+
+            if (modifiedDate != null)
+            {
+                query = query
+                    .Where(x => x.ModifiedDate > modifiedDate || x.ScriptConstraints != null && x.ScriptConstraints.Any(y => y.ModifiedDate > modifiedDate));
+            }
+
+            return await query.ToListAsync();
+        }
     public interface IScriptRepository : IRepository<Script>
     {
         DbSet<Script> Scripts { get; }
         Task<Script?> GetScriptByIdentifier(int? scriptId, (string name, string version)? primaryKey = null, bool includeConstraints = false, bool track = false);
         Task<Script?> UpdateScript(Script script);
         Task<Script?> AddScript(Script script);
-        Task<IEnumerable<Script>?> GetScripts(string name, string version, bool includeConstraints, DateTime? modifiedDate);
+        Task<IEnumerable<Script>?> GetScripts(string branch, string name, string version, bool includeConstraints, DateTime? modifiedDate);
     }
 
 }
