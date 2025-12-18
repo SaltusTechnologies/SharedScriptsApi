@@ -1,83 +1,42 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SharedScriptsApi.Interfaces;
 
 namespace SharedScriptsApi.Controllers
 {
     public class ScriptController : Controller
     {
-        // GET: ScriptController
-        public IActionResult Index()
+        [HttpGet("Scripts/Core")]
+        public IActionResult GetCoreScripts()
+        {
+                       return View();
+
+        }
+        [HttpGet("Scripts/OK")]
+        public IActionResult GetOKScripts()
         {
             return View();
         }
 
-        // GET: ScriptController/Details/5
-        public IActionResult Details(int id)
+        [HttpPost("Scripts/Core/Add")]
+        public IActionResult AddScriptCore(IScript script)
         {
-            return View();
+            return View(script);
         }
-
-        // GET: ScriptController/Create
-        public IActionResult Create()
+        [HttpPost("Scripts/OK/Add")]
+        public IActionResult AddScriptOk(IScript script)
         {
-            return View();
+            return View(script);
         }
-
-        // POST: ScriptController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(IFormCollection collection)
+        [HttpPost("Scripts/Core/Update")]
+        public IActionResult UpdateScriptCore(IScript script)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return View(script);
         }
-
-        // GET: ScriptController/Edit/5
-        public IActionResult Edit(int id)
+        [HttpPost("Scripts/OK/pdate")]
+        public IActionResult UpdateScriptsOK(IScript script)
         {
-            return View();
-        }
-
-        // POST: ScriptController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: ScriptController/Delete/5
-        public IActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: ScriptController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return View(script);
         }
     }
 }

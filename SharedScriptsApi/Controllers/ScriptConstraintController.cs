@@ -1,83 +1,37 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Saltus.digiTICKET.Data0111000000.Models;
+using SharedScriptsApi.Interfaces;
 
 namespace SharedScriptsApi.Controllers
 {
     public class ScriptConstraintController : Controller
     {
-        // GET: ScriptConstraintController
-        public IActionResult Index()
-        {
-            return View();
-        }
+        [HttpGet("ScriptConstraints/Core")]
+        public IActionResult GetScriptConstraintsCore() { return View(); }
 
-        // GET: ScriptConstraintController/Details/5
-        public IActionResult Details(int id)
+        [HttpGet("ScriptConstraints/OK")]
+        public IActionResult GetScriptConstraintsOK() { return View(); }
+        [HttpPost("ScriptConstraints/Core/Add")]
+        public IActionResult AddScriptConstraintCore(IScriptConstraint scriptConstraint)
         {
-            return View();
+            return View(scriptConstraint); 
         }
-
-        // GET: ScriptConstraintController/Create
-        public IActionResult Create()
+        [HttpPost("ScriptConstraints/OK/Add")]
+        public IActionResult AddScriptConstraintOK(IScriptConstraint scriptConstraint)
         {
-            return View();
+            return View(scriptConstraint);
         }
-
-        // POST: ScriptConstraintController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(IFormCollection collection)
+        [HttpPost("ScriptConstraints/Core/Update")]
+        public IActionResult UpdateScriptConstraintCore(IScriptConstraint scriptConstraint)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return View(scriptConstraint);
         }
-
-        // GET: ScriptConstraintController/Edit/5
-        public IActionResult Edit(int id)
+        [HttpPost("ScriptConstraints/OK/Update")]
+        public IActionResult UpdateScriptContraintOK(IScriptConstraint scriptConstraint)
         {
-            return View();
+            return View(scriptConstraint);
         }
-
-        // POST: ScriptConstraintController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: ScriptConstraintController/Delete/5
-        public IActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: ScriptConstraintController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+      
     }
 }
