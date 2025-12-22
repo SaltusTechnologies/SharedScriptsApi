@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Saltus.digiTICKET.Data0111000000.Models;
+using SharedScriptsApi.DataModels;
 
 namespace SharedScriptsApi.Data
 {

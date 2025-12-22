@@ -1,10 +1,7 @@
 ﻿
 
 using Microsoft.EntityFrameworkCore;
-using Saltus.digiTICKET.Data0111000000.Models;
 using SharedScriptsApi.DataModels;
-using SharedScriptsApi.Interfaces;
-using System;
 
 namespace SharedScriptsApi.Data
 {
@@ -35,24 +32,25 @@ namespace SharedScriptsApi.Data
 
 
                 if (!string.IsNullOrWhiteSpace(version))
-            {
-                query = query.Where(x => x.Version == version);
-            }
+                {
+                    query = query.Where(x => x.Version == version);
+                }
 
-            if (!string.IsNullOrWhiteSpace(name))
-            {
-                query = query.Where(x => x.Name == name);
-            }
+                if (!string.IsNullOrWhiteSpace(name))
+                {
+                    query = query.Where(x => x.Name == name);
+                }
 
-            if (includeConstraints)
-            {
-                query = query.Include(x => x.ScriptConstraints.Where(x => x.Active));
-            }
+                if (includeConstraints)
+                {
+                    query = query.Include(x => x.ScriptConstraints.Where(x => x.Active));
+                }
 
-            if (modifiedDate != null)
-            {
-                query = query
-                    .Where(x => x.ModifiedDate > modifiedDate || (x.ScriptConstraints != null && x.ScriptConstraints.Any(y => y.ModifiedDate > modifiedDate)));
+                if (modifiedDate != null)
+                {
+                    query = query
+                        .Where(x => x.ModifiedDate > modifiedDate || (x.ScriptConstraints != null && x.ScriptConstraints.Any(y => y.ModifiedDate > modifiedDate)));
+                }
             }
 
             return await query.ToListAsync();
@@ -134,44 +132,24 @@ namespace SharedScriptsApi.Data
             await Entities.AddAsync(entity);
             return entity;
         }
-    }
 
-    async Task<IEnumerable<IScript>> GetScripts(string branch, string name, string version, bool includeConstraints, DateTime? modifiedDate)
+
+
+        Task<IEnumerable<Script>?> IScriptRepository.GetScripts(string version, bool includeConstraints, Dictionary<string, string> branchOverrides, DateTime? modifiedDate)
         {
-            IQueryable<Script> query = Scripts
-                .AsNoTrackingWithIdentityResolution()
-                .Where(x => x.Active);
-
-            if (!string.IsNullOrWhiteSpace(version))
-            {
-                query = query.Where(x => x.Version == version);
-            }
-
-            if (!string.IsNullOrWhiteSpace(name))
-            {
-                query = query.Where(x => x.Name == name);
-            }
-
-            if (includeConstraints)
-            {
-                query = query.Include(x => x.ScriptConstraints != null);
-            }
-
-            if (modifiedDate != null)
-            {
-                query = query
-                    .Where(x => x.ModifiedDate > modifiedDate || x.ScriptConstraints != null && x.ScriptConstraints.Any(y => y.ModifiedDate > modifiedDate));
-            }
-
-            return await query.ToListAsync();
+            throw new NotImplementedException();
         }
+
+    }
     public interface IScriptRepository : IRepository<Script>
     {
         DbSet<Script> Scripts { get; }
         Task<Script?> GetScriptByIdentifier(int? scriptId, (string name, string version)? primaryKey = null, bool includeConstraints = false, bool track = false);
         Task<Script?> UpdateScript(Script script);
         Task<Script?> AddScript(Script script);
+        Task<IEnumerable<Script>?> GetScripts(string version, bool includeConstraints, Dictionary<string, string> branchOverrides, DateTime? modifiedDate);
         Task<IEnumerable<Script>?> GetScripts(string branch, string name, string version, bool includeConstraints, DateTime? modifiedDate);
     }
-
 }
+
+
