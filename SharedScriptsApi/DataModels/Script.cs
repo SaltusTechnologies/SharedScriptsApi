@@ -1,5 +1,4 @@
-﻿using Saltus.digiTICKET.Data0111000000.Models;
-using SharedScriptsApi.Interfaces;
+﻿using SharedScriptsApi.Interfaces;
 using SharedScriptsApi.Interfaces.Saltus.digiTICKET.ExternalSources.Models;
 using System.Data.SqlTypes;
 

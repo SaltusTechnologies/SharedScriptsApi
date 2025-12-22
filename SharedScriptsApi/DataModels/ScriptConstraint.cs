@@ -1,10 +1,9 @@
-﻿using SharedScriptsApi.DataModels;
-using SharedScriptsApi.Interfaces;
+﻿using SharedScriptsApi.Interfaces;
 using SharedScriptsApi.Interfaces.Saltus.digiTICKET.ExternalSources.Models;
 using System;
 using System.Data.SqlTypes;
 
-namespace Saltus.digiTICKET.Data0111000000.Models
+namespace SharedScriptsApi.DataModels
 {
     [Serializable]
     public class ScriptConstraint : IScriptConstraint, IEntity
