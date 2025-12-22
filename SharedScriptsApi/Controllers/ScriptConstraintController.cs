@@ -1,12 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Saltus.digiTICKET.Data0111000000.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 using SharedScriptsApi.Interfaces;
 
 namespace SharedScriptsApi.Controllers
 {
-    public class ScriptConstraintController : Controller
+    public class ScriptConstraintController : BaseController
     {
+        public ScriptConstraintController(ILogger<ScriptConstraintController> logger) : base(logger)
+        {
+        }
+
         [HttpGet("ScriptConstraints/Core")]
         public IActionResult GetScriptConstraintsCore() { return View(); }
 

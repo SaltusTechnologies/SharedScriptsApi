@@ -4,8 +4,13 @@ using SharedScriptsApi.Interfaces;
 
 namespace SharedScriptsApi.Controllers
 {
-    public class ScriptController : Controller
+    public class ScriptController : BaseController
     {
+
+        public ScriptController(ILogger<ScriptController> logger) : base(logger)
+        {
+        }
+
         [HttpGet("Scripts/Core")]
         public IActionResult GetCoreScripts()
         {
