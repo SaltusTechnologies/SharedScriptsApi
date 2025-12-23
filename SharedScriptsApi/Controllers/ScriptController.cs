@@ -1,22 +1,31 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SharedScriptsApi.Interfaces;
+using SharedScriptsApi.Services;
 
 namespace SharedScriptsApi.Controllers
 {
     public class ScriptController : BaseController
     {
-
-        public ScriptController(ILogger<ScriptController> logger) : base(logger)
+        
+        public ScriptController(ILogger<ScriptController> logger, IHttpContextAccessor httpContextAccessor, IServiceProvider serviceProvider) 
+            : base(logger, httpContextAccessor, serviceProvider)
         {
         }
 
         [HttpGet("Scripts/Core")]
-        public IActionResult GetCoreScripts()
+        public async Task<IActionResult> GetCoreScripts()
         {
-                       return View();
+            var scriptService = _serviceProvider.GetService<IScriptService>();
+            if (scriptService == null)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Script service not available.");
+            }
 
+            var scripts = await scriptService.GetScriptsAsync();
+            return Json(scripts);
         }
+
         [HttpGet("Scripts/OK")]
         public IActionResult GetOKScripts()
         {

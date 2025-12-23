@@ -13,12 +13,21 @@ namespace SharedScriptsApi.Controllers
     [Route("api/{version:apiVersion}")]
     [ApiController]
     [Authorize]
-    public class BaseController(ILogger<BaseController> logger) : Controller
+    public class BaseController : Controller
     {
-        protected readonly ILogger<BaseController> _logger = logger;
+        protected readonly ILogger<BaseController> _logger;
+        protected readonly IHttpContextAccessor _httpContextAccessor;
+        protected readonly IServiceProvider _serviceProvider;
         private const string API_BASE = "api";
         private const string API_VERSION_ROUTE_CONSTRAINT_NAME = "version";
         private const string DEFAULT_API_VERSION = "2.0";
+
+        public BaseController(ILogger<BaseController> logger, IHttpContextAccessor httpContextAccessor, IServiceProvider serviceProvider)
+        {
+            _logger = logger;
+            _httpContextAccessor = httpContextAccessor;
+            _serviceProvider = serviceProvider;
+        }
 
         /// <summary>
         /// Gets the route value dictionary for the controller context

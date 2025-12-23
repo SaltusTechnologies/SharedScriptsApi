@@ -5,7 +5,8 @@ namespace SharedScriptsApi.Controllers
 {
     public class ScriptConstraintController : BaseController
     {
-        public ScriptConstraintController(ILogger<ScriptConstraintController> logger) : base(logger)
+        public ScriptConstraintController(ILogger<ScriptConstraintController> logger, IHttpContextAccessor httpContextAccessor, IServiceProvider serviceProvider) 
+            : base(logger, httpContextAccessor, serviceProvider)
         {
         }
 
