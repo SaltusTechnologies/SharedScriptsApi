@@ -1,12 +1,10 @@
 ﻿using SharedScriptsApi.Interfaces;
 using SharedScriptsApi.DataModels;
 using SharedScriptsApi.Data;
-using static SharedScriptsApi.Data.ScriptRepository;
 
 namespace SharedScriptsApi.Services
 {
-    public class ScriptService<T> : DataService<T>
-        where T :Script
+    public class ScriptService : IScriptService
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly IScriptRepository _scriptRepository;
@@ -15,7 +13,6 @@ namespace SharedScriptsApi.Services
             _serviceProvider = serviceProvider;
             _scriptRepository = scriptRepository;
         }
-
 
         public async  Task<IEnumerable<IScript>?> GetScriptsAsync() 
         {
@@ -44,12 +41,12 @@ namespace SharedScriptsApi.Services
 
         public async Task AddScriptAsync(IScript script)
         {
-            await _scriptRepository.AddAsync((T)script);
+            await _scriptRepository.AddAsync((Script)script);
         }
 
         public async Task UpdateScriptAsync(IScript script)
         {
-            await _scriptRepository.UpdateAsync((T)script);
+            await _scriptRepository.UpdateAsync((Script)script);
         }
     }
 }
