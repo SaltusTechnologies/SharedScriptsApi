@@ -24,5 +24,20 @@ namespace SharedScriptsApi.Extensions
             var canCast = repository.TryCast(out T repo);
             return canCast ? repo : new T();
         }
+
+        public static bool TryCast<T>(this object value, out T result)
+        {
+            bool retVal = false;
+            if (value is T cast)
+            {
+                result = cast;
+                retVal = true;
+            }
+            else
+            {
+                result = default;
+            }
+            return retVal;
+        }
     }
 }

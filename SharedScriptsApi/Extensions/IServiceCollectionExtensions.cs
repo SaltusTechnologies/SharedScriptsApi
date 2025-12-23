@@ -1,8 +1,8 @@
 ﻿using SharedScriptsApi.Data;
 using SharedScriptsApi.Enums;
-using SharedScriptsApi.Extensions;
 using SharedScriptsApi.Interfaces;
 using SharedScriptsApi.Services;
+using SharedScriptsApi.Utilities;
 
 namespace SharedScriptsApi.Extensions
 {
@@ -13,7 +13,7 @@ namespace SharedScriptsApi.Extensions
         /// </summary>
         /// <param name="services">The service collection.</param>
         /// <returns>The updated service collection.</returns>
-        public static IServiceCollection AddExternalSourcesServices(this IServiceCollection services)
+        public static IServiceCollection AddServices(this IServiceCollection services)
         {
             services.AddKeyedScoped<IUnitOfWork>(DbConnectionType.Core, (provider, _) => 
             {
@@ -26,6 +26,7 @@ namespace SharedScriptsApi.Extensions
             services.AddKeyedScoped<IUnitOfWork, CustomerUnitOfWorkBase>(DbConnectionType.Customer);
             services.AddScoped(typeof(ISharedDbContext<>), typeof(SharedDbContext<>));
             services.AddTransient<IDbConnectionsProvider, DbConnectionsProvider>();
+            services.AddTransient<ICryptographyProvider, CryptographyProvider>();
             return services;
         }
     }
