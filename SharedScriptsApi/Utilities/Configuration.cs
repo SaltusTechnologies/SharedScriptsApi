@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Saltus.digiTICKET.DataInterfaces;
+using SharedScriptsApi.Interfaces;
 
 namespace SharedScriptsApi.Utilities
 {
