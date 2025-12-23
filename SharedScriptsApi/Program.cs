@@ -2,6 +2,7 @@ using Asp.Versioning;
 using Asp.Versioning.Conventions;
 using Microsoft.AspNetCore.Mvc;
 using SharedScriptsApi.Data;
+using SharedScriptsApi.Extensions;
 using SharedScriptsApi.Interfaces;
 using SharedScriptsApi.Services;
 
@@ -46,9 +47,9 @@ options.Conventions.Controller<ControllerBase>()
 //});
 
 // Add services to the container.
-
-services.AddScoped(typeof(IDataService<>), typeof(DataService<>));
 services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
+services.AddServices();
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
