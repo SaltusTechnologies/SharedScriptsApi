@@ -9,9 +9,10 @@ namespace SharedScriptsApi.Services
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly IConfiguration _configuration;
+        private readonly ICryptographyProvider _cryptographyProvider;
         public DbConnectionModels DbConnectionModels { get; set; } = new();
 
-        public DbConnectionsProvider(IConfiguration configuration, IServiceProvider serviceProvider)
+        public DbConnectionsProvider(IConfiguration configuration, IServiceProvider serviceProvider, ICryptographyProvider cryptographyProvider)
         {
             this._configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             var section = this._configuration.GetSection("ConnectionStrings");
@@ -20,7 +21,7 @@ namespace SharedScriptsApi.Services
             foreach (var dbConnection in this.DbConnectionModels.GetAllConnections())
             {
                 if (dbConnection == null) continue;
-                var decryptedPassword = appConfigProvider.Decrypt(dbConnection.DatabasePassword);
+                var decryptedPassword = _cryptographyProvider?.Decrypt(dbConnection.DatabasePassword);
                 if (string.IsNullOrWhiteSpace(decryptedPassword))
                 {
                     throw new InvalidOperationException($"Decrypted password for {dbConnection.GetName()} is null or empty.");
@@ -28,7 +29,7 @@ namespace SharedScriptsApi.Services
             }
 
             _serviceProvider = serviceProvider;
-            _appConfigProvider = appConfigProvider;
+            _cryptographyProvider = cryptographyProvider;
         }
 
         public IConnectionDetail? GetConnectionDetail(string typeName)
@@ -45,7 +46,7 @@ namespace SharedScriptsApi.Services
         {
             var connectionDetail = this.GetConnectionDetail(dbConnectionType);
             if (connectionDetail == null) throw new ArgumentNullException(nameof(connectionDetail));
-            var decryptedPassword = this._appConfigProvider.Decrypt(connectionDetail.DatabasePassword);
+            var decryptedPassword = this._cryptographyProvider.Decrypt(connectionDetail.DatabasePassword);
             return string.Format(connectionDetail.Format,
                                  connectionDetail.Domain,
                                  connectionDetail.Database,
@@ -58,7 +59,7 @@ namespace SharedScriptsApi.Services
             var connectionDetail = GetConnectionDetail(typeName);
             if (connectionDetail == null) throw new ArgumentNullException(nameof(connectionDetail));
 
-            var decryptedPassword = this._appConfigProvider.Decrypt(connectionDetail.DatabasePassword);
+            var decryptedPassword = _cryptographyProvider.Decrypt(connectionDetail.DatabasePassword);
 
             return string.Format(connectionDetail.Format,
                                  connectionDetail.Domain,
