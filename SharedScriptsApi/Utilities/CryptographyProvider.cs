@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text;
-using Saltus.digiTICKET.DataInterfaces;
+using SharedScriptsApi.Interfaces;
 
 namespace SharedScriptsApi.Utilities
 {
