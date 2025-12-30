@@ -1,14 +1,8 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Saltus.digiTICKET.DataEnums;
-using Saltus.digiTICKET.DataInterfaces;
+﻿using Newtonsoft.Json.Linq;
+using SharedScriptsApi.Enums;
 using SharedScriptsApi.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
 
-namespace Saltus.digiTICKET.Utilities.Helpers
+namespace SharedScriptsApi.Helpers
 {
     public class DateTimeHelper
     {
@@ -85,7 +79,12 @@ namespace Saltus.digiTICKET.Utilities.Helpers
                             {
                                 if (type.Equals(HttpType.Request))
                                 {
-                                    dateTime = property.Key.Equals("modifiedDate", StringComparison.OrdinalIgnoreCase) ? dateTime.ConvertToTimezone("Central Standard Time") : dateTime.ConvertToTimezone();
+
+                                    //dateTime = property.Key.Equals("modifiedDate", StringComparison.OrdinalIgnoreCase) ? dateTime.ConvertToTimezone("Central Standard Time") : dateTime.ConvertToTimezone();
+                                    if (property.Key.Equals("modifiedDate", StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        dateTime = dateTime.ConvertToTimezone("Central Standard Time");
+                                    }
                                 }
                                 else
                                 {

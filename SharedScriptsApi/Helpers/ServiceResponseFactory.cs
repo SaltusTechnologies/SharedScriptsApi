@@ -1,7 +1,10 @@
 ﻿using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SharedScriptsApi.Attributes;
 using SharedScriptsApi.DataModels;
+using SharedScriptsApi.Enums;
+using SharedScriptsApi.Extensions;
 using SharedScriptsApi.Interfaces;
 using System.Collections;
 using System.ComponentModel.DataAnnotations;
@@ -24,7 +27,7 @@ namespace SharedScriptsApi.Helpers
             }
             else if (data is object)
             {
-                if (TrySerializeDataObject(data, appConfigProvider, out JToken token, out string type))
+                if (TrySerializeDataObject(data, out JToken token, out string type))
                 {
                     return new FactoryServiceResponse(id, type, token);
                 }
@@ -39,14 +42,14 @@ namespace SharedScriptsApi.Helpers
             }
         }
 
-        public static IServiceResponse Test<T>(Guid id, T data, IAppConfigProvider appConfigProvider)
+        public static IServiceResponse Test<T>(Guid id, T data)
         {
             return new FactoryServiceResponse(id, "String", data.ToString());
         }
 
-        public static IServiceResponse NoContent<T>(Guid id, T data, IAppConfigProvider appConfigProvider)
+        public static IServiceResponse NoContent<T>(Guid id, T data)
         {
-            if (TrySerializeDataObject(data,appConfigProvider, out JToken token, out string type))
+            if (TrySerializeDataObject(data, out JToken token, out string type))
             {
                 return new FactoryServiceResponse(id, type, null);
             }
@@ -56,19 +59,19 @@ namespace SharedScriptsApi.Helpers
             }
         }
 
-        public static IServiceResponse NoContent(Guid id, string typeName, IAppConfigProvider appConfigProvider)
+        public static IServiceResponse NoContent(Guid id, string typeName)
         {
             return new FactoryServiceResponse(id, typeName, null);
         }
 
-        public static IServiceResponse NoContent(Guid id, string typeName, DtCode dtCode, IAppConfigProvider appConfigProvider)
+        public static IServiceResponse NoContent(Guid id, string typeName, DtCode dtCode)
         {
             return new FactoryServiceResponse(id, typeName, dtCode, null);
         }
 
-        public static IServiceResponse SuccessWithInfo<T>(Guid id, T data, DtCode dtCode, IAppConfigProvider appConfigProvider)
+        public static IServiceResponse SuccessWithInfo<T>(Guid id, T data, DtCode dtCode)
         {
-            if (TrySerializeDataObject(data, appConfigProvider, out JToken token, out string type))
+            if (TrySerializeDataObject(data, out JToken token, out string type))
             {
                 return new FactoryServiceResponse(id, type, dtCode, token);
             }
@@ -226,7 +229,7 @@ namespace SharedScriptsApi.Helpers
 
             if (result != null)
             {
-                result = DateTimeHelper.ConvertDates(result, HttpType.Reponse, appConfigProvider);
+                result = DateTimeHelper.ConvertDates(result, HttpType.Reponse);
             }
 
             return typeName != null;
