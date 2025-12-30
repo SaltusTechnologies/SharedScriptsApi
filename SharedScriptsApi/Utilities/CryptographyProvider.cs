@@ -28,9 +28,9 @@ namespace SharedScriptsApi.Utilities
             return SaltusCryptoTransformProvider.Default.GetKey(password, salt);
         }
 
-        string ICryptographyProvider.Decrypt(string value)
+        string? ICryptographyProvider.Decrypt(string value)
         {
-            string retVal = null;
+            string? retVal = null;
 
             if (!string.IsNullOrEmpty(value))
             {
@@ -42,9 +42,9 @@ namespace SharedScriptsApi.Utilities
             return retVal;
 
         }
-        string ICryptographyProvider.Decrypt(string value, string password, string salt)
+        string? ICryptographyProvider.Decrypt(string value, string password, string salt)
         {
-            string retVal = null;
+            string? retVal = null;
 
             if (!string.IsNullOrEmpty(value))
             {
@@ -57,17 +57,17 @@ namespace SharedScriptsApi.Utilities
 
         }
 
-        string ICryptographyProvider.Encrypt(string value)
+        string? ICryptographyProvider.Encrypt(string value)
         {
-            string newPassword = value != null
+            string? newPassword = value != null
                                      ? Convert.ToBase64String(SaltusCryptoTransformProvider.Default.Encrypt(ENCRYPT_PASSWORD_PASSWORD, ENCRYPT_PASSWORD_SALT, new UTF8Encoding(false).GetBytes(value), 0, new UTF8Encoding(false).GetByteCount(value)))
                                      : null;
             return newPassword;
         }
 
-        string ICryptographyProvider.Encrypt(string value, string password, string salt)
+        string? ICryptographyProvider.Encrypt(string value, string password, string salt)
         {
-            string encryptedString = value != null
+            string? encryptedString = value != null
                                      ? Convert.ToBase64String(SaltusCryptoTransformProvider.Default.Encrypt(password, salt, new UTF8Encoding(false).GetBytes(value), 0, new UTF8Encoding(false).GetByteCount(value)))
                                      : null;
             return encryptedString;

@@ -1,22 +1,26 @@
 ﻿using SharedScriptsApi.Interfaces;
 using SharedScriptsApi.DataModels;
 using SharedScriptsApi.Data;
+using SharedScriptsApi.Enums;
+using Newtonsoft.Json.Linq;
 
 namespace SharedScriptsApi.Services
 {
     public class ScriptService : IScriptService
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly IScriptRepository _scriptRepository;
-        public ScriptService(IServiceProvider serviceProvider, IScriptRepository scriptRepository) 
+        public ScriptService(IServiceProvider serviceProvider) 
         {
             _serviceProvider = serviceProvider;
-            _scriptRepository = scriptRepository;
         }
 
-        public async  Task<IEnumerable<IScript>?> GetScriptsAsync() 
+        public async Task<IServiceResponse<List<Script>?>?> GetScriptsAsync(JToken token, Guid id, DbConnectionType connectionType) 
         {
-            return await _scriptRepository.GetAllAsync();
+            IServiceResponse<List<Script>?>? response = null;
+            var unitOfWork = _serviceProvider.GetKeyedService<IUnitOfWork>(connectionType);
+            unitOfWork.SetTableName("whatever");
+            var data = unitOfWork.Get<IScriptRepository>().GetScripts();
+            return response;
         }
 
         public async Task<IEnumerable<IScript>?> GetScriptsAsync(string version, bool includeConstraints, Dictionary<string, string> branchOverrides, DateTime ModifiedDate)
