@@ -27,7 +27,7 @@ namespace SharedScriptsApi.DataModels
             this.ResponseId = responseId;
             this.DtCode = dtCode;
         }
-        public FactoryServiceResponse(Guid responseId, string type, DtCode dtCode, JToken data = null)
+        public FactoryServiceResponse(Guid responseId, string type, DtCode dtCode, JToken? data = null)
             : this(responseId, HttpStatusCode.OK, dtCode)
         {
             this.DataObject = data;
@@ -40,7 +40,7 @@ namespace SharedScriptsApi.DataModels
             this.Exception = exception;
             this.Type = exception.GetType().Name;
         }
-        public FactoryServiceResponse(Guid responseId, string type, JToken data = null)
+        public FactoryServiceResponse(Guid responseId, string type, JToken? data = null)
             : this(responseId, HttpStatusCode.OK, DtCode.Success)
         {
             this.DataObject = data;

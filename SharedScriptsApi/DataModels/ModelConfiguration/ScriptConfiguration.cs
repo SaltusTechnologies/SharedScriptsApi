@@ -46,7 +46,7 @@ namespace SharedScriptsApi.DataModels.ModelConfiguration
 
             entity.HasMany(s => s.ScriptConstraints);
 
-            entity.ToTable(tb => tb.HasTrigger("LogScriptChanges"));
+            entity.ToTable("Script", tb => tb.HasTrigger("LogScriptChanges"));
         }
     }
 }
