@@ -13,6 +13,7 @@ namespace SharedScriptsApi.Data
         private const string CONNECTION_TYPE_NAME_CORE = "Core";
         private readonly IDbConnectionsProvider _connectionProvider;
         private T? _connectionDetail;
+        private string? _tableName;
         public override DbSet<TEntity> Entity<TEntity>() where TEntity : class => Set<TEntity>();
 
         public SharedDbContext(IDbConnectionsProvider connectionProvider)
@@ -31,11 +32,12 @@ namespace SharedScriptsApi.Data
             }
         }
 
-        public SharedDbContext(IDbConnectionsProvider connectionProvider, T connectionDetail)
+        public SharedDbContext(IDbConnectionsProvider connectionProvider, T connectionDetail, string tableName)
             : this(connectionProvider)
         {
             _connectionDetail = connectionDetail ?? throw new ArgumentNullException(nameof(connectionDetail));
             _connectionProvider = connectionProvider ?? throw new ArgumentNullException(nameof(connectionProvider));
+            _tableName = tableName ?? throw new ArgumentNullException(nameof(tableName));
         }
 
 
@@ -54,8 +56,8 @@ namespace SharedScriptsApi.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            new ScriptConfiguration().Configure(modelBuilder.Entity<Script>());
-            new ScriptConstraintConfiguration().Configure(modelBuilder.Entity<ScriptConstraint>());
+            new ScriptConfiguration().Configure(modelBuilder.Entity<Script>().ToTable($"{_connectionDetail!.GetName()}_{nameof(Script)}",  tb => tb.HasTrigger("LogScriptChanges")));
+            new ScriptConstraintConfiguration().Configure(modelBuilder.Entity<ScriptConstraint>().ToTable($"{_connectionDetail!.GetName()}_{nameof(ScriptConstraint)}"));
         }
     }
 }

@@ -58,7 +58,7 @@ namespace SharedScriptsApi.Data
 
         public async Task<Script?> GetScriptByIdentifier(int? scriptId, (string name, string version)? primaryKey = null, bool includeConstraints = false, bool track = false)
         {
-            IQueryable<Script> query = Entities;
+            IQueryable<Script> query = Scripts;
 
             if (includeConstraints)
                 query = query.Include(s => s.ScriptConstraints);
