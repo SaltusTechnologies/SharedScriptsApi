@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Saltus.digiTICKET.DataEnums
+namespace SharedScriptsApi.Enums
 {
     public enum HttpType
     {
