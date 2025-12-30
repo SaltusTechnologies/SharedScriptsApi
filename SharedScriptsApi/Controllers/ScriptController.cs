@@ -27,9 +27,16 @@ namespace SharedScriptsApi.Controllers
         }
 
         [HttpGet("Scripts/OK")]
-        public IActionResult GetOKScripts()
+        public async Task<IActionResult> GetOKScripts()
         {
-            return View();
+            var scriptService = _serviceProvider.GetService<IScriptService>();
+            if (scriptService == null)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Script service not available.");
+            }
+
+            var scripts = await scriptService.GetScriptsAsync();
+            return Json(scripts);
         }
 
         [HttpPost("Scripts/Core/Add")]
