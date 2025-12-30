@@ -19,5 +19,7 @@ namespace SharedScriptsApi.Interfaces
         void Dispose();
     }
 
-    public interface ISharedDbContext<TConnection> : IDbContextBase where TConnection : IConnectionDetail {}
+    public interface ISharedDbContext<TConnection> : IDbContextBase 
+        where TConnection : IConnectionDetail 
+    {}
 }
